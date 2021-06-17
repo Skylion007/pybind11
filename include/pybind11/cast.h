@@ -1091,7 +1091,9 @@ struct kw_only {};
 struct pos_only {};
 
 template <typename T>
-arg_v arg::operator=(T &&value) const { return {*this, std::forward<T>(value)}; }
+arg_v arg::operator=(T &&value) const {
+		return {*this, std::forward<T>(value)};
+}
 
 /// Alias for backward compatibility -- to be removed in version 2.0
 template <typename /*unused*/> using arg_t = arg_v;
