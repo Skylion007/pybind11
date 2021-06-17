@@ -49,6 +49,7 @@ Details:
 #include <string>
 #include <type_traits>
 #include <typeinfo>
+#include <utility>
 
 // pybindit = Python Bindings Innovation Track.
 // Currently not in pybind11 namespace to signal that this POC does not depend
@@ -60,7 +61,7 @@ template <typename T>
 struct guarded_builtin_delete {
     std::shared_ptr<bool> flag_ptr;
     explicit guarded_builtin_delete(std::shared_ptr<bool> armed_flag_ptr)
-        : flag_ptr{armed_flag_ptr} {}
+        : flag_ptr{std::move(armed_flag_ptr)} {}
     template <typename T_                                                         = T,
               typename std::enable_if<std::is_destructible<T_>::value, int>::type = 0>
     void operator()(T *raw_ptr) {
@@ -81,7 +82,7 @@ template <typename T, typename D>
 struct guarded_custom_deleter {
     std::shared_ptr<bool> flag_ptr;
     explicit guarded_custom_deleter(std::shared_ptr<bool> armed_flag_ptr)
-        : flag_ptr{armed_flag_ptr} {}
+        : flag_ptr{std::move(armed_flag_ptr)} {}
     void operator()(T *raw_ptr) {
         if (*flag_ptr)
             D()(raw_ptr);
