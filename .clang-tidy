@@ -32,10 +32,6 @@ readability-string-compare,
 readability-uniqueptr-delete-release,
 '
 
-CheckOptions:
-- key:             performance-unnecessary-value-param.AllowedTypes
-  value:           'exception_ptr$;'
-
 HeaderFilterRegex: 'pybind11/.*h'
 
 WarningsAsErrors: '*'

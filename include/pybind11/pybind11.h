@@ -2054,8 +2054,9 @@ exception<CppException> &register_exception(handle scope,
     auto &ex = detail::get_exception_object<CppException>();
     if (!ex) ex = exception<CppException>(scope, name, base);
 
-    register_exception_translator([](std::exception_ptr p) {
-        if (!p) return;
+    register_exception_translator([](const std::exception_ptr &p) {
+        if (!p)
+            return;
         try {
             std::rethrow_exception(p);
         } catch (const CppException &e) {
